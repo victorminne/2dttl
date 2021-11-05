@@ -29,7 +29,8 @@ data_dict = {"CET" : CET, "MeanTemp" : Mean_TemperatureC, "MinTemp" : Min_Temper
 #convert dict in dataframe 
 select_data = pd.DataFrame(data = data_dict)
 
-print(select_data)
+print(select_data.describe())
+
 
 
 
