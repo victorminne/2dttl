@@ -31,16 +31,21 @@ def select_data (data):
     data_dict = {"CET" : CET, "MeanTemp" : Mean_TemperatureC, "MinTemp" : Min_TemperatureC, "MaxTemp" : Max_TemperatureC, "MeanHum" : Mean_Humidity, "MaxHum" : Max_Humidity, "MinHum" : Min_Humidity, "MeanDew" : MeanDew_PointC,"MinDew" : Min_DewpointC, "Dew" : Dew_PointC, "CloudCover" : CloudCover, "Events" : Events} 
     select_data = pd.DataFrame(data = data_dict)
 
-    return select_data
+    return select_data, Events
 
 def data_describe_display (data) :
     print(data.describe())
+    describe = data[0:50].to_html()
+    with open("describe.html", "w") as f:
+        f.write(describe)
+    full_filename = os.path.abspath("describe.html")
+    webbrowser.open(f"file://{full_filename}")
 
 
 def html_display () :
 
     #convert data as an html board
-    html_board = data[0:50].to_html()
+    html_board = data.describe().to_html()
     with open("board.html", "w") as f:
         f.write(html_board)
     full_filename = os.path.abspath("board.html")
@@ -55,11 +60,20 @@ def matplot_display (data) :
     plt.subplots_adjust(hspace=0.7, wspace=0.4)
     plt.show()
 
+def convert_Events(Events):
+    Events = Events.fillna(0)
+    print(Events)
+
+def seaborn_display (Events):
+    convert_Events (Events)
+    sb.boxplot(data = Events)
+    
 
 
 if __name__ == "__main__":
     filename = input("what is the name of the file with the extension ?")
-    data = get_data(filename)
-    html_display()
-    matplot_display(data)
+    data, Events = get_data(filename)
     data_describe_display(data)
+    #html_display()
+    #matplot_display(data)
+    #seaborn_display(Events)
