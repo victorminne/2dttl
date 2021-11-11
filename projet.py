@@ -67,13 +67,67 @@ def convert_Events(Events):
 def seaborn_display (Events):
     convert_Events (Events)
     sb.boxplot(data = Events)
-    
+
+def rep_function_3_5 (data) :
+
+    """
+    Le code en dessous n'est pas fonctionnel, c'est juste un truc à rajouter sous celui de base, je l'ai juste mis à part pour pas tout casser sur git
+    ( vu que j'ai toujours mes problèmes de path et que j'ai utilisé une méthode de gitane pour forcer le fonctionnement et pouvoir bosser )
+
+    Ça répond aux questions 3 et 5, un peu en bordel mais on vera pour mettre des réponses clean dans un fichier texte quand on aura fini la partie code déjà x)
+    """
+    #------------------------------------------------------------
+
+
+    #Question 3.1 (0.5 point) : Quels sont les attributs numériques (quantitatifs) ?
+    #print(data.select_dtypes(include=[float]))
+
+    #Question 3.2 (0.5 point) : Quels sont les attributs qui ne sont pas numériques (cathégoriques) ?
+    #print(data.select_dtypes(include=[object]))
+
+    # Question 3.3 (0.5 point) : Avons-nous d'informations sur les dates ?
+    #pas bon, les dates c'est la galère rn mais je bosse dessus
+    #print(data.select_dtypes(include=[np.datetime64]))
+
+    # Question 3.4 (0.5 point) : Y a-t-il un attribut vide (NaN)? (utiliser la fonction isnull())
+    #print(pd.isnull(data).sum())
+
+
+    #------------------------------------------------------------
+
+
+    # Question 5.1 (1 point) : Traiter les valeurs aberrantes : Corriger le(s) point(s) aberrant(s) et expliquer votre choix.
+    select_data[np.abs(select_data.Data-select_data.Data.mean()) <= (3*select_data.Data.std())]
+
+    # Question 5.2 (1 point) : Avez-vous des valeurs manquantes (NaN) ? Combien de lignes ont des valeurs manquantes ?
+    # voir question 3.4
+
+    # Question 5.3 (1 point) : Que se passe-t-il si vous utilisez la fonction dropna() ?
+    # C'est une fonction qui retire les colonnes ou lignes ( en fonction des arguments donnés, par défaut lignes ) contenant des valeurs manquantes
+
+    # Question 5.4 (1 point) : Pensez-vous que c'est une bonne idée d'utiliser la fonction dropna() ? Expliquez votre réponse.
+    # Cela dépend des arguments entrés; en effet, en précisant des paramètres supplémentaires, on peut ne retirer que les lignes ou colonnes contenant un nombre défini de NaN
+
+    # Question 5.5 (1 point) : Avez-vous des valeurs manquantes pour l'attribut "Events" ? Combien ?
+    #"Events" est un attribut spécial. Une valeur NaN pour un événement pourrait signifier que rien ne s'est passé ce jour-là, que c'était peut-être un jour sans pluie ou sans neige ou autre.
+    # 5014, voir question 3.4
+
+    # Question 5.6 (1 point) : Remplacez tous les événements NaN par "NoEvent" pour indiquer qu'aucun événement ne s'est produit.
+    select_data["Events"].fillna("NoEvent", inplace=True)
+    #Choisissez maintenant une stratégie pour remplir toutes les valeurs numériques restantes (Temperature, Humidity, Dew, CloudCover).
+    # Question 5.7 (1 point) : Expliquez votre choix lorsque vous remplissez toutes les valeurs manquantes.
+    select_data["MeanTemp"].interpolate(method = 'linear', limit_direction = 'forward') #à défaut d'avoir une valeur pour la journée, on utilise une approximation calculée grâce à la fonction interpolate()
+    select_data["MeanHum"].interpolate(method = 'linear', limit_direction = 'forward') #même logique que pour MeanTemp
+    select_data["Dew"].interpolate(method = 'linear', limit_direction = 'forward')  #même logique que pour MeanTemp
+    select_data["CloudCover"].fillna(0) #Les valeurs présentes sont numériques et représentent la couverture nuageuse, une couverture nulle (NaN) peut être représentée par un 0
+        
 
 
 if __name__ == "__main__":
     filename = input("what is the name of the file with the extension ?")
     data, Events = get_data(filename)
-    data_describe_display(data)
+    #data_describe_display(data)
     #html_display()
     #matplot_display(data)
     #seaborn_display(Events)
+    rep_function_3_5 (data)
