@@ -1,3 +1,5 @@
+#part 1 Initialisation 
+
 import pandas as pd 
 import numpy as np
 import seaborn as sb 
@@ -7,50 +9,17 @@ from scipy.stats.mstats import winsorize
 import os
 import webbrowser
 
-def get_data () :
-        
-    #import data as dataframe
-    data = pd.read_csv('weather_madrid.csv')
-    # ^ ^ ^ penser à remodif, j'ai dû mettre le path asbolu pour que ça marche et si tu vois ce commentaire, c'est que j'ai oublié de le retirer
-    return data
-
-def select_data(data) :
-    #get information queried as series to add them in dict
-    CET = pd.Series(data = data["CET"])
-    Mean_TemperatureC = pd.Series(data = data["Mean TemperatureC"])
-    Min_TemperatureC = pd.Series(data = data["Min TemperatureC"])
-    Max_TemperatureC = pd.Series(data = data["Max TemperatureC"])
-    Mean_Humidity = pd.Series(data = data[" Mean Humidity"])
-    Min_Humidity = pd.Series(data =  data[" Min Humidity"])
-    Max_Humidity = pd.Series(data =  data["Max Humidity"])
-    MeanDew_PointC = pd.Series(data =  data["MeanDew PointC"])
-    Min_DewpointC = pd.Series(data =  data["Min DewpointC"])
-    Dew_PointC = pd.Series(data =  data["Dew PointC"])
-    CloudCover = pd.Series(data =  data[" CloudCover"])
-    Events = pd.Series(data =  data[" Events"])
-
-    data_dict = {"CET" : CET, "MeanTemp" : Mean_TemperatureC, "MinTemp" : Min_TemperatureC, "MaxTemp" : Max_TemperatureC, "MeanHum" : Mean_Humidity, "MaxHum" : Max_Humidity, "MinHum" : Min_Humidity, "MeanDew" : MeanDew_PointC,"MinDew" : Min_DewpointC, "Dew" : Dew_PointC, "CloudCover" : CloudCover, "Events" : Events}
-
-    #convert dict in dataframe 
-    select_data = pd.DataFrame(data = data_dict)
-    return select_data
-
-def display_discribe_data (selected_data) :
-    print(selected_data.describe())
 
 
+#question 2.x
 
+def display_html_p2(selected_data) : 
 
-def display_html(selected_data) : 
-    #----------------------- html part -----------------------
-    #convert data as an html board
     html_board = selected_data[0:50].to_html()
-    #wirte the html board in a file
     with open("board.html", "w") as f:
         f.write(html_board)
-    #get the path of the file genrated
     full_filename = os.path.abspath("board.html")
-    #launch the file in a browser
+    #get the path of the file genrated and launch the file in a browser
     webbrowser.open(f"file://{full_filename}")
 
 
@@ -77,7 +46,51 @@ def print_questions_p3(selected_data):
     print(pd.isnull(data).sum())
 
 
-    #------------------------------------------------------------
+
+#question 4.x
+
+def get_data () :
+        
+    #import data as dataframe
+    data = pd.read_csv('weather_madrid.csv')
+    # ^ ^ ^ penser à remodif, j'ai dû mettre le path asbolu pour que ça marche et si tu vois ce commentaire, c'est que j'ai oublié de le retirer
+    return data
+
+# Question 4.1 (1 point) : Créer un nouveau dataFrame avec ces attributs
+
+def select_data(data) :
+    #get information queried as series to add them in dict
+    CET = pd.Series(data = data["CET"])
+    Mean_TemperatureC = pd.Series(data = data["Mean TemperatureC"])
+    Min_TemperatureC = pd.Series(data = data["Min TemperatureC"])
+    Max_TemperatureC = pd.Series(data = data["Max TemperatureC"])
+    Mean_Humidity = pd.Series(data = data[" Mean Humidity"])
+    Min_Humidity = pd.Series(data =  data[" Min Humidity"])
+    Max_Humidity = pd.Series(data =  data["Max Humidity"])
+    MeanDew_PointC = pd.Series(data =  data["MeanDew PointC"])
+    Min_DewpointC = pd.Series(data =  data["Min DewpointC"])
+    Dew_PointC = pd.Series(data =  data["Dew PointC"])
+    CloudCover = pd.Series(data =  data[" CloudCover"])
+    Events = pd.Series(data =  data[" Events"])
+
+    # Question 4.2 (1 point) : Renommer les attributs pour les rendre plus faciles à manipuler : "date", "MeanTemp", "MinTemp", "MaxTemp", "MeanHum", "MaxHum", "MinHum", "MeanDew", "MinDew", "Dew", "CloudCover", "Events"
+    data_dict = {"date" : CET, "MeanTemp" : Mean_TemperatureC, "MinTemp" : Min_TemperatureC, "MaxTemp" : Max_TemperatureC, "MeanHum" : Mean_Humidity, "MaxHum" : Max_Humidity, "MinHum" : Min_Humidity, "MeanDew" : MeanDew_PointC,"MinDew" : Min_DewpointC, "Dew" : Dew_PointC, "CloudCover" : CloudCover, "Events" : Events}
+
+    #convert dict in dataframe 
+    select_data = pd.DataFrame(data = data_dict)
+    return select_data
+
+# Question 4.3 (1 point) : Utilisez la fonction describe() pour voir les détails de vos données filtrées. Observez les informations et trouvez l'aberration.
+def display_discribe_data (selected_data) :
+    print(selected_data.describe())
+
+# Question 4.4 (0,5 point) : Quel attribut présente une anomalie ?
+
+# Question 4.5 (1 point) : Utilisez Seaborn pour tracer un boxplot de l'attribut anormal. Qu'observez-vous ? Combien y a-t-il de valeurs aberrantes ?
+
+
+
+#questions 5.x
 
 def print_question_p5 (selected_data) :
 
@@ -109,7 +122,6 @@ def print_question_p5 (selected_data) :
     print(selected_data)
 
 
-    #------------------------------------------------------------
 
 def print_question_p6 (selected_data) :
 
@@ -130,7 +142,8 @@ if __name__ == "__main__":
     data = get_data()
     selected_data = select_data(data)
     display_discribe_data(selected_data)
-    display_html(selected_data)
+    display_html_p2(selected_data)
     display_matplot_lib(selected_data)
     print_questions_p3(selected_data)
     print_question_p5(selected_data)
+    print_question_p6(selected_data)
