@@ -23,24 +23,7 @@ def display_html_p2(selected_data) :
     webbrowser.open(f"file://{full_filename}")
 
 
-def display_matplot_lib (selected_data) :
 
-    #matplot lib graphs
-    selected_data.hist(figsize=(12, 10), bins=30, edgecolor="black")
-    plt.subplots_adjust(hspace=0.7, wspace=0.4)
-    plt.show()
-
-    sb.boxplot(selected_data["MinHum"])
-    plt.show()
-    sb.boxplot(selected_data["MaxHum"])
-    plt.show()
-    sb.boxplot(selected_data["MeanDew"])
-    plt.show()
-    sb.boxplot(selected_data["MinDew"])
-    plt.show()
-    sb.boxplot(selected_data["Dew"])
-    plt.show()
-    
 
 
 def print_questions_p3(selected_data):
@@ -99,7 +82,24 @@ def display_discribe_data (selected_data) :
 # Question 4.4 (0,5 point) : Quel attribut présente une anomalie ?
 
 # Question 4.5 (1 point) : Utilisez Seaborn pour tracer un boxplot de l'attribut anormal. Qu'observez-vous ? Combien y a-t-il de valeurs aberrantes ?
+def display_matplot_lib (selected_data) :
+    
+    #matplot lib graphs
+    selected_data.hist(figsize=(12, 10), bins=30, edgecolor="black")
+    plt.subplots_adjust(hspace=0.7, wspace=0.4)
+    plt.show()
 
+    sb.boxplot(selected_data["MinHum"])
+    plt.show()
+    sb.boxplot(selected_data["MaxHum"])
+    plt.show()
+    sb.boxplot(selected_data["MeanDew"])
+    plt.show()
+    sb.boxplot(selected_data["MinDew"])
+    plt.show()
+    sb.boxplot(selected_data["Dew"])
+    plt.show()
+    
 
 
 #questions 5.x
@@ -136,26 +136,26 @@ def print_question_p5 (selected_data) :
 
 
 def print_question_p6 (selected_data) :
-
+    
     # Question 6.1 (0.5 point) : Utilisez la fonction to_datetime() pour convertir la chaîne en une date. Utilisez la fonction dtypes pour vérifier si la conversion a été correctement effectuée.
     selected_data['CET'] = pd.to_datetime(selected_data['CET'], infer_datetime_format=True, utc=True)
     print(selected_data.dtypes)
 
     # Question 6.2 (1 point) : Ajouter un nouvel attribut "year" contenant l'année de la date sous forme d'entier (Vérifier les pandas).
-
+    selected_data['Year'] = pd.DatetimeIndex(selected_data['CET']).year
 
     # Question 6.3 (1 point) : Ajouter un nouvel attribut "day" contenant le jour de l'année [1-365].
-
+    selected_data['Day'] = pd.DatetimeIndex(selected_data['CET']).day
 
     # Question 6.4 (1 point) : Écrivez les données résultantes dans un fichier nommé weather_madrid_clean.csv.
-
+    selected_data.to_csv('weather_madrid_clean.csv', index=False)
 
 if __name__ == "__main__":
     data = get_data()
     selected_data = select_data(data)
     display_discribe_data(selected_data)
-    #display_html_p2(selected_data)
+    display_html_p2(selected_data)
     display_matplot_lib(selected_data)
-    #print_questions_p3(selected_data)
-    #print_question_p5(selected_data)
-    #print_question_p6(selected_data)
+    print_questions_p3(selected_data)
+    print_question_p5(selected_data)
+    print_question_p6(selected_data)
