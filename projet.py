@@ -30,6 +30,18 @@ def display_matplot_lib (selected_data) :
     plt.subplots_adjust(hspace=0.7, wspace=0.4)
     plt.show()
 
+    sb.boxplot(selected_data["MinHum"])
+    plt.show()
+    sb.boxplot(selected_data["MaxHum"])
+    plt.show()
+    sb.boxplot(selected_data["MeanDew"])
+    plt.show()
+    sb.boxplot(selected_data["MinDew"])
+    plt.show()
+    sb.boxplot(selected_data["Dew"])
+    plt.show()
+    
+
 
 def print_questions_p3(selected_data):
     #Question 3.1 (0.5 point) : Quels sont les attributs numériques (quantitatifs) ?
@@ -142,8 +154,8 @@ if __name__ == "__main__":
     data = get_data()
     selected_data = select_data(data)
     display_discribe_data(selected_data)
-    display_html_p2(selected_data)
+    #display_html_p2(selected_data)
     display_matplot_lib(selected_data)
-    print_questions_p3(selected_data)
-    print_question_p5(selected_data)
-    print_question_p6(selected_data)
+    #print_questions_p3(selected_data)
+    #print_question_p5(selected_data)
+    #print_question_p6(selected_data)
